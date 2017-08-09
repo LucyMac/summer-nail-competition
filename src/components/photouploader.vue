@@ -10,7 +10,7 @@
         </div>
 
         <div class="col-md-5">
-          <button v-on:click="register">Enter the competition!</button> 
+          <button v-on:click="addEntry">Enter the competition!</button> 
         </div>        
       </div>
     </section>
@@ -34,7 +34,7 @@ export default {
 
   },
   methods: {
-    register: function() {
+    addEntry: function() {
       console.log('register method fired');
       this.submissions.push({
         id: this.submissions.length + 1,
@@ -44,7 +44,6 @@ export default {
       });
       console.log(this.newEntry);
       this.newEntry = {};
-      localStorage.setItem('submissions', JSON.stringify(this.submissions));
     }
   },
   events: {
