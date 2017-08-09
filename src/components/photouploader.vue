@@ -5,7 +5,7 @@
       <input v-model="newEntry.name" type="text" placeholder="name">
       <input v-model="newEntry.email" type="email" placeholder="email">
       <p>Please use your Beamly email</p>
-      <!-- <input v-model v-model="newEntry.photo" type="file"> -->
+       <input type="file"> 
       <button v-on:click="register">Enter the competition!</button> 
     </section>
   </div>
