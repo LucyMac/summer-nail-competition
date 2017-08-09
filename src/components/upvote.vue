@@ -1,5 +1,5 @@
 <template>
-    <div class="upvote">
+    <div class="upvote col-xs-5">
         <p class="upvote__total">{{likes}} likes</p>
         <button v-on:click="plusOne" class="upvote__btn">+ 1</button>
     </div>
@@ -23,18 +23,6 @@ export default {
 </script>
 
 
-<style>
-.upvote__btn {
-    border: 0;
-    border-radius: 50%;
-    padding: 10px;
-    font-weight: bold;
-}
-
-.upvote__total {
-    font-weight: bold;
-    width: 50%;
-    float: left; 
-    margin-top: 7px;
-}
+<style lang="scss" scoped>
+   @import '../scss/main.scss'
 </style>

@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <li v-for="submission in submissions" class="thumbnail">
-        <img class="thumbnail__img" :src="submission.src" alt="nail picture" />
-        <p class="submission__name">{{ submission.name }}</p>
+  <div class="grid-row">
+    <li v-for="submission in submissions" class="thumbnail col-sm-3">
+      <div class="grid-row">
+        <img class="thumbnail__img col-xs-12" :src="submission.src" alt="nail picture" />
+        <p class="submission__name col-xs-6">{{ submission.slack }}</p>
          <upvote :likes="submission.likes"></upvote>
+      </div>
     </li>
   </div>
 </template>
@@ -19,25 +21,14 @@ export default {
   },
   props: ['submissions'],
   data () {
-      //
+      return {
+        
+      }
     }
   }
 </script>
 
 
-<style>
-
-.thumbnail {
-  float: left;
-  width: 20%;
-  margin: 20px;
-  padding: 20px;
-  background: #f0f0f0;
-  border-radius: 2px;
-}
-
-.thumbnail__img {
-  width: 100%;
-}
-
+<style lang="scss" scoped>
+   @import '../scss/main.scss'
 </style>

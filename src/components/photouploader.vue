@@ -1,12 +1,18 @@
 <template>
   <div>
-    <section class="photo-uploader">
-       <h2>Upload your nails for your chance to win</h2>
-      <input v-model="newEntry.name" type="text" placeholder="name">
-      <input v-model="newEntry.email" type="email" placeholder="email">
-      <p>Please use your Beamly email</p>
-       <input type="file"> 
-      <button v-on:click="register">Enter the competition!</button> 
+    <section class="photo-uploader col-xs-12">
+      <div class="grid-row">
+        <div class="col-md-5">
+          <h2>Upload your nails for your chance to win</h2>
+          <input v-model="newEntry.slack" type="text" placeholder="Slack handle">
+          <p>Please use your Beamly Slack username</p>
+          <input type="file">
+        </div>
+
+        <div class="col-md-5">
+          <button v-on:click="register">Enter the competition!</button> 
+        </div>        
+      </div>
     </section>
   </div>
 </template>
@@ -18,8 +24,7 @@ export default {
   data () {
     return {
       newEntry: {
-        name: "",
-        email: "",
+        slack: "",
         photo: "",
         likes: 0
       }
@@ -30,16 +35,16 @@ export default {
   },
   methods: {
     register: function() {
+      console.log('register method fired');
       this.submissions.push({
         id: this.submissions.length + 1,
         src: this.newEntry.photo,
-        name: this.newEntry.name,
-        email: this.newEntry.email,
+        slack: this.newEntry.slack,
         likes: this.newEntry.likes
       });
-      bus.$emit('register');
+      console.log(this.newEntry);
       this.newEntry = {};
-      localStorage.setItem('submissions', JSON.stringify(this.submissions)); 
+      localStorage.setItem('submissions', JSON.stringify(this.submissions));
     }
   },
   events: {
@@ -47,3 +52,9 @@ export default {
   }
 }
 </script>
+
+
+<style lang="scss" scoped>
+   @import '../scss/main.scss'
+</style>
+

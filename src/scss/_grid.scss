@@ -1,0 +1,198 @@
+//
+// Responsive Break points
+//
+
+$min-width: (
+    xs: 0,
+    sm: 480px,
+    md: 768px,
+    lg: 980px,
+    xl: 1200px,
+) !default;
+$max-width: (
+    xs: 479px,
+    sm: 767px,
+    md: 979px,
+    lg: 1199px,
+) !default;
+$gutters: (
+    xs: 15px,
+    sm: 15px,
+    md: 15px,
+    lg: 30px,
+    xl: 30px,
+) !default;
+$grid-column-count: 12 !default;
+$container-max-width: 1200px !default;
+$container-min-width: 290px !default;
+$container-padding: (
+    xs: 15px,
+    sm: 15px,
+    md: 15px,
+    lg: 20px,
+    xl: 20px,
+) !default;
+
+
+// clearfix mixin
+
+// Clearfix
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+//    contenteditable attribute is included anywhere else in the document.
+//    Otherwise it causes space to appear at the top and bottom of elements
+//    that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+//    `:before` to contain the top-margins of child elements.
+//
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+
+@mixin clearfix() {
+    &::before,
+    &::after {
+        content: " "; // 1
+        display: table; // 2
+    }
+
+    &::after {
+        clear: both;
+    }
+}
+
+
+// grid 
+
+@mixin grid-column-width($size) {
+    $i: 1;
+
+    @while $i < $grid-column-count + 1 {
+        .col-#{$size}-#{$i},
+        .gutterless-#{$size}-#{$i},
+        .width-#{$size}-#{$i} {
+            width: ($i * 100% / $grid-column-count);
+        }
+
+        $i: $i + 1;
+    }
+
+    .width-#{$size}-auto {
+        width: auto;
+    }
+}
+
+@mixin grid-column-offset($size) {
+    $i: 0;
+
+    @while $i < $grid-column-count {
+        .col-#{$size}-offset-#{$i},
+        .gutterless-#{$size}-offset-#{$i} {
+            margin-left: ($i * 100% / $grid-column-count);
+        }
+
+        $i: $i + 1;
+    }
+}
+
+@mixin grid-column($size) {
+    @include grid-column-width($size);
+    @include grid-column-offset($size);
+}
+
+@mixin grid-helpers($size) {
+    .hide-#{$size} {
+        display: none !important;
+    }
+
+    .pull-left-#{$size} {
+        float: left;
+    }
+
+    .pull-right-#{$size} {
+        float: right;
+    }
+
+    .flex-col-#{$size} {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@each $property, $value in $min-width {
+
+    @if $value == 0 {
+        .grid-container,
+        .grid-container-gutterless {
+            padding-left: map-get($container-padding, $property);
+            padding-right: map-get($container-padding, $property);
+            margin: 0 auto;
+            width: 100%;
+            min-width: $container-min-width;
+            max-width: $container-max-width;
+        }
+
+        .grid-container-gutterless {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        [class^="col-"],
+        [class*=" col-"] {
+            padding-left: map-get($gutters, $property) / 2;
+            padding-right: map-get($gutters, $property) / 2;
+            float: left;
+            width: 100%;
+        }
+
+        [class*="gutterless-"] {
+            float: left;
+            width: 100%;
+        }
+
+        .grid-row {
+            @include clearfix();
+            margin-left: -#{map-get($gutters, $property) / 2};
+            margin-right: -#{map-get($gutters, $property) / 2};
+        }
+
+        .grid-row-gutterless {
+            @include clearfix();
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        @include grid-column($property);
+    }
+
+    @if $value != 0 {
+        @media only screen and (min-width: $value) {
+            .grid-container {
+                padding-left: map-get($container-padding, $property);
+                padding-right: map-get($container-padding, $property);
+            }
+
+            [class^="col-"],
+            [class*=" col-"] {
+                padding-left: map-get($gutters, $property) / 2;
+                padding-right: map-get($gutters, $property) / 2;
+            }
+
+            .grid-row {
+                margin-left: -#{map-get($gutters, $property) / 2};
+                margin-right: -#{map-get($gutters, $property) / 2};
+            }
+
+            @include grid-column($property);
+        }
+    }
+
+    @if map-get($max-width, $property) {
+        @media only screen and (min-width: $value) and (max-width: map-get($max-width, $property)) {
+            @include grid-helpers($property);
+        }
+    } @else {
+        @media only screen and (min-width: $value) {
+            @include grid-helpers($property);
+        }
+    }
+}
